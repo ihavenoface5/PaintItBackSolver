@@ -19,7 +19,20 @@ string squareStateToString(int state) {
         case CROSS:
             return "X";
         default:
-            break;            
+            return "ERROR";           
+    }
+}
+
+string squareStateToPrettyString(int state) {
+    switch(state) {
+        case EMPTY:
+            return "EMPTY";
+        case BLACK:
+            return "BLACK";
+        case CROSS:
+            return "CROSS";
+        default:
+            return "ERROR";       
     }
 }
 

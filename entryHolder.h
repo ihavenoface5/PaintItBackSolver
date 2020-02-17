@@ -13,18 +13,32 @@ class EntryHolder {
         Entry* entries;
         int numEntries;
         int size;
+        int blackCount;
         bool isMarked;
+        bool isRow;
+        int index;
+
     public:
         void setIsMarked(bool marked) { this->isMarked = marked; };
         void setEntries(string entryString);
         void setSize(int size) { this->size = size; };
+        void setIsRow(bool isRow) { this->isRow = isRow; };
+        void setIndex(int index) { this->index = index; };
         void printEntries();
+        int getNumEntries() { return this->numEntries; };
+        int getSize() { return this->size; };
+        Entry* getEntries() { return this->entries; };
+        int getIndex() { return this->index; };
+        bool getIsRow() { return this->isRow; };
+        int getBlackCount() { return this->blackCount; };
+        bool getIsMarked() { return this->isMarked; };
         EntryHolder();
         ~EntryHolder();
 };
 
 EntryHolder::EntryHolder() {
     this->isMarked = false;
+    this->blackCount = 0;
 }
 
 void EntryHolder::setEntries(string entryString) {
@@ -37,10 +51,13 @@ void EntryHolder::setEntries(string entryString) {
     for (int i = 0; i < numOfEntries; i++) {
         int entryValue = stoi(entries[i]);
         this->entries[i].setValue(entryValue);
+        this->blackCount += entryValue;
     }
 }
 
 void EntryHolder::printEntries() {
+    cout << "isRow: " << to_string(this->isRow) << endl;
+    cout << "index: " << to_string(this->index) << endl;
     for (int i = 0; i < this->numEntries; i++) {
         cout << this->entries[i].toString() << endl;
     }

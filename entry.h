@@ -9,6 +9,8 @@ class Entry {
         int value;
         bool isMarked;
     public:
+        int getValue() { return this->value; };
+        bool getIsMarked() { return this->isMarked; };
         void setIsMarked(bool marked) { this-> isMarked = marked; };
         void setValue(int value) { this->value = value; };
         string toString();

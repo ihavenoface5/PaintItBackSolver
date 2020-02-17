@@ -3,9 +3,10 @@
 
 #include <string>
 #include "../entryHolder.h"
+#include "../canvas.h"
 using namespace std;
 
-typedef void (*ruleFunction)(EntryHolder*);
+typedef bool (*ruleFunction)(EntryHolder*, Canvas* canvas);
 
 class Rule {
     private:

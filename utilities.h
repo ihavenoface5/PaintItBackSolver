@@ -4,6 +4,8 @@
 #include <string>
 #include <sstream>
 #include <utility>
+#include "squareState.h"
+#include "canvas.h"
 using namespace std;
 
 string* explode(string s, char delim, int size)

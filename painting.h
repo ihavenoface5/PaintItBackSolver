@@ -15,16 +15,15 @@ class Painting {
         int numColumns;
         Row* rows;
         Column* columns;
-        int* canvas;
-        void initializeCanvas();
         void cleanUp();
 
     public:
         Painting(int rows, int columns);
-        void printCanvas();
         void printRowsAndColumns();
         void setRows(string* rows, int size);
         void setColumns(string* columns, int size);
+        int getNumRows() { return this->numRows; };
+        int getNumColumns() { return this->numColumns; };
         Row* getRows() { return this->rows; };
         Column* getColumns() { return this->columns; };
         ~Painting();
@@ -34,7 +33,6 @@ class Painting {
 Painting::Painting(int rows, int columns) {
     this->numRows = rows;
     this->numColumns = columns;
-    this->initializeCanvas();
 }
 
 void Painting::setRows(string* rows, int size) {
@@ -42,6 +40,8 @@ void Painting::setRows(string* rows, int size) {
     for (int i = 0; i < this->numRows; i++) {
         this->rows[i].setEntries(rows[i]);
         this->rows[i].setSize(size);
+        this->rows[i].setIndex(i);
+        this->rows[i].setIsRow(true);
     }
 }
 
@@ -50,19 +50,8 @@ void Painting::setColumns(string* columns, int size) {
     for (int i = 0; i < this->numColumns; i++) {
         this->columns[i].setEntries(columns[i]);
         this->columns[i].setSize(size);
-    }
-}
-
-void Painting::initializeCanvas() {
-    this->canvas = new int[this->numRows * this->numColumns]{EMPTY};
-}
-
-void Painting::printCanvas() {
-    for (int i = 0; i < this->numRows; i++) {
-        for (int j = 0; j < this->numColumns; j++) {
-            cout << squareStateToString(this->canvas[(i + 1) * j]) << " ";
-        }
-        cout << endl;
+        this->columns[i].setIsRow(false);
+        this->columns[i].setIndex(i);
     }
 }
 
@@ -79,7 +68,6 @@ void Painting::printRowsAndColumns() {
 }
 
 void Painting::cleanUp() {
-    delete [] this->canvas;
     delete [] this->rows;
     delete [] this->columns;
 }

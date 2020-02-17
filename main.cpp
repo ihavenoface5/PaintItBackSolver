@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "painting.h"
 #include "utilities.h"
+#include "canvas.h"
 #include "solver.h"
 #include "debug.h"
 using namespace std;
@@ -14,10 +15,11 @@ Painting parseInput(string filename);
 
 int main(int argc, char* argv[]) {
     Painting painting = parseInput(INPUT_FILENAME);
-    painting.printCanvas();
-    Solver solver = Solver(&painting);
-    solver.printRules();
+    Canvas* canvas = new Canvas(painting.getNumRows(), painting.getNumColumns());
+    Solver solver = Solver(&painting, canvas);
     solver.process();
+    canvas->print();
+    delete canvas;
 }
 
 Painting parseInput(string filename) {
@@ -46,23 +48,23 @@ Painting parseInput(string filename) {
 
     Painting painting = Painting(rows, columns);
 
-    string rowEntryLine;
-    getline(file, rowEntryLine);
+    string columnValuesLine;
+    getline(file, columnValuesLine);
 
-    string* rowEntries = explode(rowEntryLine, ' ', rows);
-    painting.setRows(rowEntries, rows);
-
-    string* columnEntries = new string[columns];
-
-    for (int i = 0; i < columns; i++) {
-        string nextLine;
-        getline(file, nextLine);
-        columnEntries[i] = nextLine;
-    }
-
+    string* columnEntries = explode(columnValuesLine, ' ', columns);
     painting.setColumns(columnEntries, columns);
 
-    delete [] columnEntries;
+    string* rowEntries = new string[rows];
+
+    for (int i = 0; i < rows; i++) {
+        string nextLine;
+        getline(file, nextLine);
+        rowEntries[i] = nextLine;
+    }
+
+    painting.setRows(rowEntries, rows);
+
+    delete [] rowEntries;
     file.close();
 
     return painting;
