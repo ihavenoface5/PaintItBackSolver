@@ -23,8 +23,10 @@ class Painting {
         Painting(int rows, int columns);
         void printCanvas();
         void printRowsAndColumns();
-        void setRows(string* rows);
-        void setColumns(string* columns);
+        void setRows(string* rows, int size);
+        void setColumns(string* columns, int size);
+        Row* getRows() { return this->rows; };
+        Column* getColumns() { return this->columns; };
         ~Painting();
 };
 
@@ -35,17 +37,19 @@ Painting::Painting(int rows, int columns) {
     this->initializeCanvas();
 }
 
-void Painting::setRows(string* rows) {
+void Painting::setRows(string* rows, int size) {
     this->rows = new Row[this->numRows];
     for (int i = 0; i < this->numRows; i++) {
         this->rows[i].setEntries(rows[i]);
+        this->rows[i].setSize(size);
     }
 }
 
-void Painting::setColumns(string* columns) {
+void Painting::setColumns(string* columns, int size) {
     this->columns = new Column[this->numColumns];
     for (int i = 0; i < this->numColumns; i++) {
         this->columns[i].setEntries(columns[i]);
+        this->columns[i].setSize(size);
     }
 }
 

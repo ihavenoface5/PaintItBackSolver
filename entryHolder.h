@@ -12,12 +12,15 @@ class EntryHolder {
     private:
         Entry* entries;
         int numEntries;
+        int size;
         bool isMarked;
     public:
         void setIsMarked(bool marked) { this->isMarked = marked; };
         void setEntries(string entryString);
+        void setSize(int size) { this->size = size; };
         void printEntries();
         EntryHolder();
+        ~EntryHolder();
 };
 
 EntryHolder::EntryHolder() {
@@ -41,6 +44,10 @@ void EntryHolder::printEntries() {
     for (int i = 0; i < this->numEntries; i++) {
         cout << this->entries[i].toString() << endl;
     }
+}
+
+EntryHolder::~EntryHolder() {
+    delete [] this->entries;
 }
 
 #endif
