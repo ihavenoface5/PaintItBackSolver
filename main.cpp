@@ -22,6 +22,7 @@ int main(int argc, char* argv[]) {
     Solver solver = Solver(&painting, canvas);
     solver.process();
     canvas->print();
+    // painting.printRowsAndColumns();
     delete canvas;
 }
 

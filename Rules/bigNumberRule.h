@@ -11,6 +11,10 @@
 bool bigNumberRuleFunction(EntryHolder* holder, Canvas* canvas) {
     log("Processing big number rule");
 
+    if (holder->getIsMarked()) {
+        log("Row or Column already complete");
+        return false;
+    }
     // determine if the rule should run
     if (holder->getNumEntries() != 1) {
         log("Rule not ran: # of entries != 1");
@@ -32,6 +36,7 @@ bool bigNumberRuleFunction(EntryHolder* holder, Canvas* canvas) {
 
     if (size == entry) {
         // fill in the whole row
+        holder->setIsMarked(true);
         return fillEntries(canvas, isRow, size, index, 0, size-1, BLACK);
     } else {
         int startIndex = size - entry;

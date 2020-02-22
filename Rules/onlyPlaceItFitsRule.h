@@ -13,20 +13,20 @@ bool onlyPlaceItFitsFunction(EntryHolder* holder, Canvas* canvas) {
         return false;
     }
 
-    bool didUpdate = false;
-
-    int countBetweenCrosses = largestSpaceBetweenCrosses(canvas, holder->getIsRow(), holder->getSize(), holder->getIndex());
-
-    for (int i = 0; i < holder->getNumEntries(); i++) {
-        Entry* currentEntry = &holder->getEntries()[i];
-        if (!currentEntry->getIsMarked() && currentEntry->getValue() == countBetweenCrosses) {
-            if (fillEntries(canvas, holder->getIsRow(), holder->getSize(), holder->getIndex(), 0, holder->getSize()-1, BLACK)) {
-                didUpdate = true;
-            }
-        }
+    if (holder->getNumEntries() > 1) {
+        log("Rule doesn't apply to > 1 entry");
+        return false;
     }
 
-    return didUpdate;
+    int entry = holder->getEntries()[0].getValue();
+
+    int endIndex = findSpaceBetweenCrosses(canvas, holder->getIsRow(), holder->getSize(), holder->getIndex(), entry);
+
+    if (endIndex != -1) {
+        return fillEntries(canvas, holder->getIsRow(), holder->getSize(), holder->getIndex(), endIndex - entry, endIndex, BLACK);
+    }
+
+    return false;
 }
 
 #endif

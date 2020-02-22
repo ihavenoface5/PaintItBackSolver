@@ -11,6 +11,7 @@ class Solver {
         Painting* painting;
         Canvas* canvas;
         bool runRules(int numRows, EntryHolder* rows, int numColumns, EntryHolder* columns);
+        int numRules;
 
     public:
         Solver(Painting* painting, Canvas* canvas);
@@ -22,6 +23,7 @@ class Solver {
 Solver::Solver(Painting* painting, Canvas* canvas) {
     this->painting = painting;
     this->canvas = canvas;
+    this->numRules = sizeof(ALL_RULES) / sizeof(Rule);
 }
 
 Painting* Solver::process() {
@@ -38,12 +40,16 @@ bool Solver::runRules(int numRows, EntryHolder* rows, int numColumns, EntryHolde
     bool didUpdate = false;
     
     log("ROWS++++++++++++++++++++++++++++++++++++++++++");
-    for (int i = 0; i < NUM_RULES; i++) {
+    for (int i = 0; i < this->numRules; i++) {
         ruleFunction function = ALL_RULES[i].getRunMethod();
+        if (PRINT_STEPS) {
+            cout << "Processing rule: " << ALL_RULES[i].toString() << endl;
+        }
         for (int j = 0; j < numRows; j++) {
             bool result = function(&rows[j], this->canvas);
             if (result) {
                 log("row was updated");
+                printStep(rows[j].getIsRow(), rows[j].getIndex(), this->canvas);
                 didUpdate = true;
             } else {
                 log("row remains unchanged");
@@ -52,12 +58,16 @@ bool Solver::runRules(int numRows, EntryHolder* rows, int numColumns, EntryHolde
     }
 
     log("COLUMNS++++++++++++++++++++++++++++++++++++++++++");
-    for (int i = 0; i < NUM_RULES; i++) {
+    for (int i = 0; i < this->numRules; i++) {
         ruleFunction function = ALL_RULES[i].getRunMethod();
+        if (PRINT_STEPS) {
+            cout << "Processing rule: " << ALL_RULES[i].toString() << endl;
+        }
         for (int j = 0; j < numColumns; j++) {
             bool result = function(&columns[j], this->canvas);
             if (result) {
                 log("column was updated");
+                printStep(columns[j].getIsRow(), columns[j].getIndex(), this->canvas);
                 didUpdate = true;
             } else {
                 log("column remains unchanged");
@@ -71,7 +81,7 @@ bool Solver::runRules(int numRows, EntryHolder* rows, int numColumns, EntryHolde
 void Solver::printRules() {
     log("ALL RULES");
 
-    for(int i = 0; i < NUM_RULES; i++) {
+    for(int i = 0; i < this->numRules; i++) {
         log(ALL_RULES[i].toString());
     }
 }

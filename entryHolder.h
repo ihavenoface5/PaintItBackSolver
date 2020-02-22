@@ -19,8 +19,8 @@ class EntryHolder {
         int index;
 
     public:
-        void setIsMarked(bool marked) { this->isMarked = marked; };
         void setEntries(string entryString);
+        void setIsMarked(bool isMarked);
         void setSize(int size) { this->size = size; };
         void setIsRow(bool isRow) { this->isRow = isRow; };
         void setIndex(int index) { this->index = index; };
@@ -55,9 +55,19 @@ void EntryHolder::setEntries(string entryString) {
     }
 }
 
+void EntryHolder::setIsMarked(bool isMarked) {
+    this->isMarked = isMarked;
+    if (isMarked) {
+        for (int i = 0; i < this->numEntries; i++) {
+            this->entries[i].setIsMarked(true);
+        }
+    }
+}
+
 void EntryHolder::printEntries() {
     cout << "isRow: " << to_string(this->isRow) << endl;
     cout << "index: " << to_string(this->index) << endl;
+    cout << "isMarked: " << to_string(this->isMarked) << endl;
     for (int i = 0; i < this->numEntries; i++) {
         cout << this->entries[i].toString() << endl;
     }
