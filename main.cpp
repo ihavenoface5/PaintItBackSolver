@@ -9,21 +9,24 @@
 #include "debug.h"
 using namespace std;
 
-#define INPUT_FILENAME "Paintings/TrainingHall-6.txt"
-
 Painting parseInput(string filename);
 
 int main(int argc, char* argv[]) {
-    Painting painting = parseInput(INPUT_FILENAME);
+    if (argc < 2) {
+        cerr << "Please specify a filename." << endl;
+        exit(0);
+    }
+
+    Painting painting = parseInput(string(argv[1]));
     Canvas* canvas = new Canvas(painting.getNumRows(), painting.getNumColumns());
     Solver solver = Solver(&painting, canvas);
-    cout << "Solving: " << INPUT_FILENAME << endl;
     solver.process();
     canvas->print();
     delete canvas;
 }
 
 Painting parseInput(string filename) {
+    cerr << "filename: " << filename << endl;
     if (filename.compare("") == 0) {
         cerr << "filename not specified" << endl;
         exit(0);
@@ -31,6 +34,11 @@ Painting parseInput(string filename) {
 
     ifstream file;
     file.open(filename);
+
+    if (!file.is_open()) {
+        cerr << "failed to open file." << endl;
+        exit(0);
+    }
 
     string rowsLine;
     string columnsLine;
